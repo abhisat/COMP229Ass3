@@ -21,3 +21,16 @@ And answer the following questions about them:
        *Neither are active now but repository B was forked 4 times, one of which (https://bitbucket.org/ViolentC/git-repo) has been updated recently.  In fact, ViolentC forked both repositories and then made no changes.  I think we can guess that is one of last year's students experimenting with git :)*
   * 🤔 Which file in each project has had the most activity?
        *This is not a task we can do just with bitbucket - we are going to need advanced git features.  You will need to clone the repository to your computer to do this.  Once  you have cloned it, you will need to use the command line interface of git.  On windows that is available in PowerShell, in MacOS and Linux you should use the Terminal.  The command to get the information we want is `git diff --stat`.  I.e. we ask git to tell us about the diffs but to give us the statistical summary.  We need to know the range of commits to ask about.  In this case we want the full range so we ask for the diffs from the first commit (we need to look that up) to the latest (we can use the shortcut `HEAD`).  The magic incantation that does this is `git diff --stat HEAD..f5baa11a1c82dc42ade5c291e9f061c13b66bc2f` for ruby-git.  This spews a whole pile of stuff on our console and scanning down the list we see that `lib.rb` with 719 deletions is the most active.  If we do the same for git-repo (using the incantation `git diff --stat HEAD..cf31fe9b4fb650b27e19f5d7ee7297e383660caf`) we see `reflection.py` with 1653 insertions is the most active file.*
+
+# Task 2
+
+Setup a new IntelliJ project with a main method that will print the following message to the console when run:
+
+~~~~~
+Sheep and Wolves
+~~~~~
+
+🤔 Now setup a new bitbucket repository and have this project pushed to that repository.
+You will first need to `commit`, then `push`.  Ensure you have setup an appropriate `.gitignore`
+file.  The one we have in this repository is a very good start.
+>>>>>>> af63b8d8c281000227ca7edc2db7dbbb522c9383
