@@ -40,3 +40,7 @@ Create a 2D array to represent the grid and connect the drawn grid to the array 
 # Task 5
 
 Modify your program so that mousing over a cell will "highlight" it.  Highlighted cells should be drawn in grey.
+
+# Task 6
+
+Ensure your program, if it does not already, has a `Cell` class and that your grid array is an array of `Cell` objects.  It should still display as before.  What are reasonable methods and fields for the `Cell` class?  Now create a `Grid` class to subsume your 2D array of `Cell`s.  What fields and methods should this class have?
