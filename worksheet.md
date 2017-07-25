@@ -33,3 +33,6 @@ file.  The one we have in this repository is a very good start.
 
 Draw a 20 by 20 grid on a 1280x720 window. Have the grid take up the 720x720 square on the left of the window.  Each cell in the grid should be 35 pixels high and wide and the grid should be drawn 10 pixels off the top and left borders of the screen.  To do this, you should use the `Graphics` class from the Java libraries.  Be sure to consult the tips page for this task (it is a link in iLearn).  Without it, you will be very confused.
 
+# ☆ Task 4
+
+Create a 2D array to represent the grid and connect the drawn grid to the array in some way.
