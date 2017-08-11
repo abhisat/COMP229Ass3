@@ -68,3 +68,7 @@ Have a close look at your `Shepherd`, `Sheep` and `Wolf` classes.  If they are a
 Is there a place that you could put all the common parts?
 
 🤔 Will this work given what you currently have?  If not, what would we need to change?
+
+# Task 10
+
+Draw a picture of the inheritance hierarchy you have created.  You should (loosely) use [UML notation](http://www.csci.csusb.edu/dick/cs201/uml.html) for your diagram.  You are using UML In this case, and all through this course, only for "a rough sketch of an idea".
