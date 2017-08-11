@@ -49,3 +49,8 @@ Create a 2D array to represent the grid and connect the drawn grid to the array 
 Modify your program so that mousing over a cell will "highlight" it.  Highlighted cells should be drawn in grey.
 
 **Solution:** A `Canvas` can ask for the mouse position anytime with `getMousePosition()` so we do that and draw the box differently for when the mouse is within it.  We use a helper method, `isWithin` to do the computation for us.  Note that since we now have an animating picture, not a static picture, we need to have the screen drawn repeatedly, not once.  Thus we put the `repaint` request into an infinite loop.
+
+# Task 6
+
+Ensure your program, if it does not already, has a `Cell` class and that your grid array is an array of `Cell` objects.  It should still display as before.  What are reasonable methods and fields for the `Cell` class?  Now create a `Grid` class to subsume your 2D array of `Cell`s.  What fields and methods should this class have?
+
