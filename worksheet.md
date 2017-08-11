@@ -41,3 +41,6 @@ Draw a 20 by 20 grid on a 1280x720 window. Have the grid take up the 720x720 squ
 # ☆ Task 4
 
 Create a 2D array to represent the grid and connect the drawn grid to the array in some way.
+
+**Solution:** I created an array to hold _the top left point_ of each box in the grid.   Then I loop over that array in the `paint` method to draw each box.  They all have the same size, so I didn't need to store that.  Thanks to Java and OO programming, I can put any object in an array and the `Point` object from the `java.awt` library is just what I need.
+
