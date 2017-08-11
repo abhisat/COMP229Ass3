@@ -1,8 +1,6 @@
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Graphics;
-import java.awt.Dimension;
-import java.awt.Point;
+import java.awt.*;
 
 public class Main extends JFrame implements Runnable {
 
@@ -28,9 +26,20 @@ public class Main extends JFrame implements Runnable {
         public void paint(Graphics g) {
             for(int x = 0; x < positions.length; x++){
                 for(int y = 0; y < positions[x].length; y++){
+                    if (isWithin(getMousePosition(), positions[x][y], new Dimension(WIDTH, HEIGHT))){
+                        g.setColor(Color.LIGHT_GRAY);
+                        g.fillRect(positions[x][y].x, positions[x][y].y, WIDTH, HEIGHT);
+                    }
+                    g.setColor(Color.BLACK);
                     g.drawRect(positions[x][y].x, positions[x][y].y, WIDTH, HEIGHT);
                 }
             }
+        }
+
+        public boolean isWithin(Point target, Point topLeft, Dimension area){
+            if (target == null)
+                return false;
+            return target.x > topLeft.x && target.x < topLeft.x + area.width && target.y > topLeft.y && target.y < topLeft.y + area.width;
         }
     }
 
@@ -48,7 +57,9 @@ public class Main extends JFrame implements Runnable {
 
     @Override
     public void run() {
-        this.repaint();
+        while (true) {
+            this.repaint();
+        }
     }
 
 }
