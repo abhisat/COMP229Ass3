@@ -2,6 +2,7 @@
 .idea/**/tasks.xml
 .idea/dictionaries
 .idea/preferred-vcs.xml
+.idea/markdown-exported-files.xml
 
 /out/
 
