@@ -73,3 +73,11 @@ Have the program start with 1 grid and 3 characters:
   * Wolf (drawn red)
   * Shepherd (drawn green)
 
+# Task 9
+
+Have a close look at your `Shepherd`, `Sheep` and `Wolf` classes.  If they are anything like mine they are _all the same except for the colour they use_.  This repetition is "a bad thing" because if the same thing is done in three different places, we need to remember that updating one requires us to update all three.
+
+Is there a place that you could put all the common parts?
+
+🤔 Will this work given what you currently have?  If not, what would we need to change?
+
