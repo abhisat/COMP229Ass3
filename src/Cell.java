@@ -10,6 +10,9 @@ public class Cell extends Rectangle {
         if (highlighted) {
             g.setColor(Color.LIGHT_GRAY);
             g.fillRect(x, y, 35, 35);
+        } else {
+            g.setColor(Color.DARK_GRAY);
+            g.fillRect(x, y, 35, 35);
         }
 
         g.setColor(Color.BLACK);

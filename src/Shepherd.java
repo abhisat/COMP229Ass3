@@ -1,15 +1,10 @@
 import java.awt.*;
 
-public class Shepherd implements Character {
-
-    private Cell location;
+public class Shepherd extends Character {
 
     public Shepherd(Cell location) {
-        this.location = location;
+        super(location);
+        display = Color.GREEN;
     }
 
-    public void paint(Graphics g){
-        g.setColor(Color.GREEN);
-        g.fillOval(location.x + location.width/4, location.y+ location.height/4, location.width/2, location.height/2);
-    }
 }
