@@ -13,7 +13,22 @@ public class Grid {
 
         for(int i = 0; i < 20; i++) {
             for(int j = 0; j < 20; j++) {
-                cells[i][j] = new Cell(x + j * 35, y + i * 35);
+                Cell thisCell;
+                // we have to randomly decide what cell will go in here
+                switch (new java.util.Random().nextInt(4)) {
+                    case 0:
+                        cells[i][j] = new Dirt(x + j * 35, y + i * 35);
+                        break;
+                    case 1:
+                        cells[i][j] = new Grass(x + j * 35, y + i * 35);
+                        break;
+                    case 2:
+                        cells[i][j] = new Trees(x + j * 35, y + i * 35);
+                        break;
+                    case 3:
+                        cells[i][j] = new Rocks(x + j * 35, y + i * 35);
+                        break;
+                }
             }
         }
     }
