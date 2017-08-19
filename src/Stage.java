@@ -23,6 +23,8 @@ public class Stage {
         moves.add(new bos.MoveDown(grid, sheep));
         moves.add(new bos.MoveUp(grid, wolf));
         moves.add(new bos.MoveUp(grid, shepherd));
+        moves.add(new bos.MoveRight(grid, shepherd));
+        moves.add(new bos.MoveLeft(grid, shepherd));
 
     }
 

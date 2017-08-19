@@ -1,8 +1,10 @@
 import bos.GameBoard;
+import bos.Pair;
 
 import java.awt.*;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Predicate;
 
 public class Grid implements GameBoard<Cell> {
 
@@ -41,6 +43,26 @@ public class Grid implements GameBoard<Cell> {
         }
         return null;
     }
+    public Pair<Integer, Integer> findAmongstCells(Predicate<Cell> predicate){
+        for(int y = 0; y < 20; ++y) {
+            for(int x = 0; x < 20; ++x) {
+                if(predicate.test(cells[y][x]))
+                    return new Pair(y,x);
+            }
+        }
+        return null;
+    }
+
+    public Optional<Pair<Integer, Integer>> safeFindAmongstCells(Predicate<Cell> predicate){
+        for(int y = 0; y < 20; ++y) {
+            for(int x = 0; x < 20; ++x) {
+                if(predicate.test(cells[y][x]))
+                    return Optional.of(new Pair(y, x));
+            }
+        }
+        return Optional.empty();
+
+    }
 
     private void doToEachCell(Consumer<Cell> func){
         for(int y = 0; y < 20; ++y) {
@@ -52,37 +74,29 @@ public class Grid implements GameBoard<Cell> {
 
     @Override
     public Optional<Cell> below(Cell relativeTo) {
-        bos.Pair<Integer, Integer> loc = indexOfCell(relativeTo);
-        if (loc.first < 19)
-            return Optional.of(cells[loc.first+1][loc.second]);
-        else
-            return Optional.empty();
+        return safeFindAmongstCells((c) -> c == relativeTo)
+                .filter((pair) -> pair.first < 19)
+                .map((pair) -> cells[pair.first + 1][pair.second]);
     }
 
     @Override
     public Optional<Cell> above(Cell relativeTo) {
-        bos.Pair<Integer, Integer> loc = indexOfCell(relativeTo);
-        if (loc.first > 0)
-            return Optional.of(cells[loc.first - 1][loc.second]);
-        else
-            return Optional.empty();
+        return safeFindAmongstCells((c) -> c == relativeTo)
+                .filter((pair) -> pair.first > 0)
+                .map((pair) -> cells[pair.first - 1][pair.second]);
     }
 
     @Override
     public Optional<Cell> rightOf(Cell relativeTo) {
-        bos.Pair<Integer, Integer> loc = indexOfCell(relativeTo);
-        if (loc.second < 19)
-            return Optional.of(cells[loc.first][loc.second + 1]);
-        else
-            return Optional.empty();
+        return safeFindAmongstCells((c) -> c == relativeTo)
+                .filter((pair) -> pair.second < 19)
+                .map((pair) -> cells[pair.first][pair.second + 1]);
     }
 
     @Override
     public Optional<Cell> leftOf(Cell relativeTo) {
-        bos.Pair<Integer, Integer> loc = indexOfCell(relativeTo);
-        if (loc.second > 0)
-            return Optional.of(cells[loc.first][loc.second - 1]);
-        else
-            return Optional.empty();
+        return safeFindAmongstCells((c) -> c == relativeTo)
+                .filter((pair) -> pair.second > 0)
+                .map((pair) -> cells[pair.first][pair.second - 1]);
     }
 }
