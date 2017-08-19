@@ -2,6 +2,7 @@ import bos.GameBoard;
 
 import java.awt.*;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class Grid implements GameBoard<Cell> {
 
@@ -22,12 +23,7 @@ public class Grid implements GameBoard<Cell> {
     }
 
     public void paint(Graphics g, Point mousePosition) {
-        for(int y = 0; y < 20; ++y) {
-            for(int x = 0; x < 20; ++x) {
-                Cell thisCell = cells[x][y];
-                thisCell.paint(g, thisCell.contains(mousePosition));
-            }
-        }
+        doToEachCell((c) -> c.paint(g, c.contains(mousePosition)));
     }
 
     public Cell getRandomCell(){
@@ -44,6 +40,14 @@ public class Grid implements GameBoard<Cell> {
             }
         }
         return null;
+    }
+
+    private void doToEachCell(Consumer<Cell> func){
+        for(int y = 0; y < 20; ++y) {
+            for(int x = 0; x < 20; ++x) {
+                func.accept(cells[y][x]);
+            }
+        }
     }
 
     @Override

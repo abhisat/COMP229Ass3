@@ -146,3 +146,22 @@ Currently, the game loop (in `Main.run`) is running as fast as it can.  We fixed
 
 Sleeping a thread throws an `InterruptedException` so you will need to catch that. In fact, we don't care about the thread being interrupted so the catch block should just report the fact it was interrupted, print out a representation (via `toString`) of the exception that was thrown, and continue on as normal.
 
+# Task 14
+
+Add the following method to the `Grid` class
+
+~~~~~
+    /**
+     * Takes a cell consumer (i.e. a function that has a single `Cell` argument and
+     * returns `void`) and applies that consumer to each cell in the grid.
+     * @param func The `Cell` to `void` function to apply at each spot.
+     */
+    public void doToEachCell(Consumer<Cell> func){
+      // Your job to add the body
+    }
+ ~~~~~
+
+ Notice that the method accepts a `Consumer` functional interface.
+
+ Now use this method to turn the `paint` method of the `Grid` class into a single line of code.  I.e. remove the double-nested loop and replace it with a call to `doToEachCell`.
+
