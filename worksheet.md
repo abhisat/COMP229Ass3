@@ -201,3 +201,28 @@ Modify the three similar methods (`above`, `leftOf`, and `rightOf`) to all use t
 
 Do you like these versions better?  Why or why not?
 
+# Task 16
+
+It is time to start allowing characters in the game to make their own moves.  We call these "AI moves" because we are adding (simple) artificial intelligence to the non-shepherd characters.  There are quite a few changes required to make this work.  Firstly, we will need to use the latest version of the `bos` library.  It supports more types of moves (adding a random move and a non-move) and it requires game boards to be able to compute a path from one place to another.  The `bos.jar` file in this commit has all the additions, copy it into your `lib` folder.  Immediately your `Grid` will have unimplemented methods because the new `bos.GameBoard` has the extra abstract `movesBetween` method.  Thus your first job is to implement this method in your `Grid` class.
+
+The simplest algorithm for doing this is to first compute all the horizontal moves required to get from one place to another.  They will either all be left moves or all right moves (depending on whether the "from" location is to the right or left of the "to" location).  You can use the indices in the grid to calculate exactly how many you need as well.  Once you have done this, repeat the process for vertical moves.  Add all these moves into a list for returning from the `movesBetween` method.
+
+**WARNING:** Be very careful to make sure you know which index (first or second) is representing rows and which is columns in your Grid.  In the sample solution we have made the first co-ordinate the row and the second the column (this will seem backwards to many of you).
+
+Now you need to give all characters the ability to choose a move themselves.  Add `public abstract RelativeMove aiMove(Stage stage);` to the `Character` abstract class.  This will force you to implement that method in each `Character` subclass.  You can choose exactly what move you want them to return to get the behaviour your want out of them.  You can start with having each return a `RandomMove` just so we can test the next step.
+
+Now we have everything we need to move from replaying pre-set moves to having the characters choose their moves.  These changes will all take place in the `update` method of the `Stage` class.  We can take the moves list away entirely and on each "step", which you will recall was happening every two seconds, we ask each character what move it wants to make (with `aiMove`) and then `perform` that move.
+
+Test that you have this working before moving on.
+
+Now we will finesse the stage updating.  The game should end whenever the sheep makes it to the shepherd (the sheep lives!) or the wolf catches the sheep (the sheep dies).  Modify the `update` method to implement this.  You will need an `if` statement or two to check for those conditions and then `System.exit` when they are satisfied.  On the updates where they are not satisfied, the characters make their `aiMove`.
+
+Now we add sensible behaviour to each character.  The behaviours will be:
+  * The sheep moves one step along the path towards the shepherd.
+  * The wolf moves one step along the path towards the sheep
+  * The shepherd remains still.
+
+Make the changes to the various `aiMove` methods to achieve the above.  This is where the `movesBetween` method available on the grid will be usefull.  Note, to make this work in my solution, I needed to relax the access modifiers on most of the fields of the `Stage` class from `private` to `protected`.  Is this change reasonable?  What are the consequences?  We ask these questions because any relaxation of access modifiers must be justified in program design terms, not just as a matter of convenience.
+
+
+
