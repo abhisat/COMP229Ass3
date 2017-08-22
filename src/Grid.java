@@ -1,14 +1,15 @@
-import bos.GameBoard;
-import bos.Pair;
+import bos.*;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 public class Grid implements GameBoard<Cell> {
 
-    private Cell[][] cells  = new Cell[20][20];
+    private Cell[][] cells = new Cell[20][20];
 
     private int x;
     private int y;
@@ -17,8 +18,8 @@ public class Grid implements GameBoard<Cell> {
         this.x = x;
         this.y = y;
 
-        for(int i = 0; i < 20; i++) {
-            for(int j = 0; j < 20; j++) {
+        for (int i = 0; i < 20; i++) {
+            for (int j = 0; j < 20; j++) {
                 cells[i][j] = new Cell(x + j * 35, y + i * 35);
             }
         }
@@ -28,14 +29,14 @@ public class Grid implements GameBoard<Cell> {
         doToEachCell((c) -> c.paint(g, c.contains(mousePosition)));
     }
 
-    public Cell getRandomCell(){
+    public Cell getRandomCell() {
         java.util.Random rand = new java.util.Random();
         return cells[rand.nextInt(20)][rand.nextInt(20)];
     }
 
-    private bos.Pair<Integer, Integer> indexOfCell(Cell c){
-        for(int y = 0; y < 20; ++y) {
-            for(int x = 0; x < 20; ++x) {
+    private bos.Pair<Integer, Integer> indexOfCell(Cell c) {
+        for (int y = 0; y < 20; ++y) {
+            for (int x = 0; x < 20; ++x) {
                 if (cells[y][x] == c) {
                     return new bos.Pair(y, x);
                 }
@@ -43,20 +44,21 @@ public class Grid implements GameBoard<Cell> {
         }
         return null;
     }
-    public Pair<Integer, Integer> findAmongstCells(Predicate<Cell> predicate){
-        for(int y = 0; y < 20; ++y) {
-            for(int x = 0; x < 20; ++x) {
-                if(predicate.test(cells[y][x]))
-                    return new Pair(y,x);
+
+    public Pair<Integer, Integer> findAmongstCells(Predicate<Cell> predicate) {
+        for (int y = 0; y < 20; ++y) {
+            for (int x = 0; x < 20; ++x) {
+                if (predicate.test(cells[y][x]))
+                    return new Pair(y, x);
             }
         }
         return null;
     }
 
-    public Optional<Pair<Integer, Integer>> safeFindAmongstCells(Predicate<Cell> predicate){
-        for(int y = 0; y < 20; ++y) {
-            for(int x = 0; x < 20; ++x) {
-                if(predicate.test(cells[y][x]))
+    public Optional<Pair<Integer, Integer>> safeFindAmongstCells(Predicate<Cell> predicate) {
+        for (int y = 0; y < 20; ++y) {
+            for (int x = 0; x < 20; ++x) {
+                if (predicate.test(cells[y][x]))
                     return Optional.of(new Pair(y, x));
             }
         }
@@ -64,9 +66,9 @@ public class Grid implements GameBoard<Cell> {
 
     }
 
-    private void doToEachCell(Consumer<Cell> func){
-        for(int y = 0; y < 20; ++y) {
-            for(int x = 0; x < 20; ++x) {
+    private void doToEachCell(Consumer<Cell> func) {
+        for (int y = 0; y < 20; ++y) {
+            for (int x = 0; x < 20; ++x) {
                 func.accept(cells[y][x]);
             }
         }
@@ -98,5 +100,36 @@ public class Grid implements GameBoard<Cell> {
         return safeFindAmongstCells((c) -> c == relativeTo)
                 .filter((pair) -> pair.second > 0)
                 .map((pair) -> cells[pair.first][pair.second - 1]);
+    }
+
+    @Override
+    public List<RelativeMove> movesBetween(Cell from, Cell to, GamePiece<Cell> mover) {
+        Pair<Integer, Integer> fromIndex = findAmongstCells((c) -> c == from);
+        Pair<Integer, Integer> toIndex = findAmongstCells((c) -> c == to);
+
+        List<RelativeMove> result = new ArrayList<RelativeMove>();
+
+        // horizontal movement
+        if (fromIndex.second <= toIndex.second) {
+            for (int i = fromIndex.second; i < toIndex.second; i++) {
+                result.add(new MoveRight(this, mover));
+            }
+        } else {
+            for (int i = toIndex.second; i < fromIndex.second; i++) {
+                result.add(new MoveLeft(this, mover));
+            }
+        }
+
+        // vertical movement
+        if (fromIndex.first <= toIndex.first) {
+            for (int i = fromIndex.first; i < toIndex.first; i++) {
+                result.add(new MoveDown(this, mover));
+            }
+        } else {
+            for (int i = toIndex.first; i < fromIndex.first; i++) {
+                result.add(new MoveUp(this, mover));
+            }
+        }
+        return result;
     }
 }
