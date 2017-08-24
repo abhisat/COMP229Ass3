@@ -222,7 +222,11 @@ Now we add sensible behaviour to each character.  The behaviours will be:
   * The wolf moves one step along the path towards the sheep
   * The shepherd remains still.
 
-Make the changes to the various `aiMove` methods to achieve the above.  This is where the `movesBetween` method available on the grid will be usefull.  Note, to make this work in my solution, I needed to relax the access modifiers on most of the fields of the `Stage` class from `private` to `protected`.  Is this change reasonable?  What are the consequences?  We ask these questions because any relaxation of access modifiers must be justified in program design terms, not just as a matter of convenience.
+Make the changes to the various `aiMove` methods to achieve the above.  This is where the `movesBetween` method available on the grid will be useful.  Note, to make this work in my solution, I needed to relax the access modifiers on most of the fields of the `Stage` class from `private` to `protected`.  Is this change reasonable?  What are the consequences?  We ask these questions because any relaxation of access modifiers must be justified in program design terms, not just as a matter of convenience.
 
+# Task 17
 
+So, time to throw a spanner in the works.  It has been decided that any time a sheep steps on a cell that is on the top-left to bottom-right diagonal, it must stop moving.  As if those cells have glue on them or something.  So we want to be able to _change the behaviour of the sheep at run-time_.  Sound familiar?  This will require a strategy pattern.  Change your program so the `aiMove` is not done directly in the method but done via a strategy pattern.  I suggest a `Behaviour` interface for the "top" of the strategy that contains a single method `public RelativeMove chooseMove(Stage stage, Character mover)`.  I also recommend adding a `Behaviour` field to the `Character` class that is set in its constructor.  Now change your program so that when the sheep is on a cell where `x == y` (i.e. that top-left to bottom-right diagonal), its behaviour changes to standing still (not moving).  Your sheep will die more often now.  How about making the shepherd start moving towards the sheep if it gets stuck?
+
+You can have quite a bit of fun with interesting behaviour changes now and the `movesBetween` method is powerful enough to support a number of different movement strategies.
 
