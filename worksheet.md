@@ -230,3 +230,9 @@ So, time to throw a spanner in the works.  It has been decided that any time a s
 
 You can have quite a bit of fun with interesting behaviour changes now and the `movesBetween` method is powerful enough to support a number of different movement strategies.
 
+## 🤔 Task 17a
+
+This task sits to the side of our other tasks.  It is an experiment.  Even after we get an answer, we won't build upon that answer in later tasks, i.e. we will use the Task 17 answer as the basis for Task 18.  However, I think this is the most interesting task so far, it is certainly worth your time.
+
+Can we make the strategy pattern we just created disappear with lambda expressions?  More concretely, can I get rid of the `Behaviour` interface and its subclasses and still have dynamic behaviour at run-time?  If so, implement it and discuss the pros and cons of this approach compared to a "real" strategy pattern.
+
