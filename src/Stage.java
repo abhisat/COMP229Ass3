@@ -16,9 +16,9 @@ public class Stage {
 
     public Stage() {
         grid     = new Grid(10, 10);
-        sheep    = new Sheep(grid.getRandomCell());
-        shepherd = new Shepherd(grid.getRandomCell());
-        wolf     = new Wolf(grid.getRandomCell());
+        shepherd = new Shepherd(grid.getRandomCell(), new StandStill());
+        sheep    = new Sheep(grid.getRandomCell(), new MoveTowards(shepherd));
+        wolf     = new Wolf(grid.getRandomCell(), new MoveTowards(sheep));
 
         allCharacters = new ArrayList<Character>();
         allCharacters.add(sheep); allCharacters.add(shepherd); allCharacters.add(wolf);
@@ -34,6 +34,10 @@ public class Stage {
                 System.out.println("The sheep is dead :(");
                 System.exit(1);
             } else {
+                if (sheep.location.x == sheep.location.y){
+                    sheep.setBehaviour(new StandStill());
+                    shepherd.setBehaviour(new MoveTowards(sheep));
+                }
                 allCharacters.forEach((c) -> c.aiMove(this).perform());
                 timeOfLastMove = Instant.now();
             }
