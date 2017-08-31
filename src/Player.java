@@ -1,6 +1,8 @@
+import bos.GameBoard;
+
 import java.awt.*;
 
-public class Player {
+public class Player implements KeyObserver {
 
     public Cell location;
     private Boolean inMove;
@@ -20,6 +22,26 @@ public class Player {
     }
 
     public Boolean inMove(){
-        return inMove();
+        return inMove;
+    }
+
+    @Override
+    public void notify(char c, GameBoard<Cell> gb) {
+        if (inMove){
+            if (c == 'a') {
+                location = gb.leftOf(location).orElse(location);
+                inMove = false;
+            } else if (c == 'd') {
+                location = gb.rightOf(location).orElse(location);
+                inMove = false;
+            } else if (c == 'w') {
+                location = gb.above(location).orElse(location);
+                inMove = false;
+            } else if (c == 's') {
+                location = gb.below(location).orElse(location);
+                inMove = false;
+            }
+
+        }
     }
 }
