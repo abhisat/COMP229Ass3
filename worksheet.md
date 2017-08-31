@@ -289,3 +289,8 @@ Your job is to design and implement an observer pattern that will fit into this 
   * A `Stage` will be  your concrete subject.
   * The `Player` will be your concrete observer.
 
+## 🤔 Task 19
+
+This task sits to the side of the other tasks.  Task 20 will build from the solution to Task 18, not this task.
+
+Can you make the "make the observer pattern disappear" with lambdas while still maintaining the _intention_ of the pattern?

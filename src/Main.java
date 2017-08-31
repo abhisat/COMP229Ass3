@@ -58,5 +58,4 @@ public class Main extends JFrame implements Runnable {
             }
         }
     }
-
 }
