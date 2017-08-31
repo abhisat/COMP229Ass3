@@ -23,7 +23,7 @@ public class Main extends JFrame implements Runnable {
             stage.paint(g, getMousePosition());
         }
 
-        @Override public void keyTyped(KeyEvent e) {stage.notifyAll(e.getKeyChar(), stage.grid);}
+        @Override public void keyTyped(KeyEvent e) {stage.notifyAll(e.getKeyChar());}
 
         @Override public void keyPressed(KeyEvent e) {}
 

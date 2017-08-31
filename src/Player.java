@@ -2,7 +2,7 @@ import bos.GameBoard;
 
 import java.awt.*;
 
-public class Player implements KeyObserver {
+public class Player {
 
     public Cell location;
     private Boolean inMove;
@@ -24,8 +24,7 @@ public class Player implements KeyObserver {
     public Boolean inMove(){
         return inMove;
     }
-
-    @Override
+    
     public void notify(char c, GameBoard<Cell> gb) {
         if (inMove){
             if (c == 'a') {

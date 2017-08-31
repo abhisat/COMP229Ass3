@@ -2,16 +2,19 @@ import java.awt.*;
 import java.util.*;
 import java.time.*;
 import java.util.List;
+import java.util.function.BiConsumer;
 
+import bos.GameBoard;
 import bos.RelativeMove;
 
-public class Stage extends KeyObservable {
+public class Stage {
     protected Grid grid;
     protected Character sheep;
     protected Character shepherd;
     protected Character wolf;
     protected Player player;
     private List<Character> allCharacters;
+    private ArrayList<BiConsumer<java.lang.Character, GameBoard<Cell>>> observers;
 
     private Instant timeOfLastMove = Instant.now();
 
@@ -21,8 +24,10 @@ public class Stage extends KeyObservable {
         sheep = new Sheep(grid.getRandomCell(), new MoveTowards(shepherd));
         wolf = new Wolf(grid.getRandomCell(), new MoveTowards(sheep));
 
+        observers = new ArrayList();
+
         player = new Player(grid.getRandomCell());
-        this.register(player);
+        observers.add(player::notify);
 
         allCharacters = new ArrayList<Character>();
         allCharacters.add(sheep);
@@ -57,5 +62,11 @@ public class Stage extends KeyObservable {
         shepherd.paint(g);
         wolf.paint(g);
         player.paint(g);
+    }
+
+    public void notifyAll(char c){
+        for(BiConsumer bc : observers) {
+            bc.accept(new java.lang.Character(c), grid);
+        }
     }
 }
