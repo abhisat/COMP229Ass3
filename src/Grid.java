@@ -11,11 +11,15 @@ public class Grid {
         this.x = x;
         this.y = y;
 
+        int currentTerrain = new java.util.Random().nextInt(4);
         for(int i = 0; i < 20; i++) {
             for(int j = 0; j < 20; j++) {
-                Cell thisCell;
-                // we have to randomly decide what cell will go in here
-                switch (new java.util.Random().nextInt(4)) {
+                // a 1 in 8 chance we will switch to a new type of terrain
+                if (new java.util.Random().nextInt(8) < 1){
+                    currentTerrain = new java.util.Random().nextInt(4);
+                }
+
+                switch (currentTerrain) {
                     case 0:
                         cells[i][j] = new Dirt(x + j * 35, y + i * 35);
                         break;
