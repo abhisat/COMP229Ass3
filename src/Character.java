@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.Optional;
 
 public abstract class Character implements GamePiece<Cell> {
-    Optional<Color> display;
+    Optional<Image> display;
     Cell location;
     Behaviour behaviour;
 
@@ -21,8 +21,7 @@ public abstract class Character implements GamePiece<Cell> {
 
     public  void paint(Graphics g){
         if(display.isPresent()) {
-            g.setColor(display.get());
-            g.fillOval(location.x + location.width / 4, location.y + location.height / 4, location.width / 2, location.height / 2);
+            g.drawImage(display.get(), location.x+2, location.y+2, 31, 31, null, null);
         }
     }
 
