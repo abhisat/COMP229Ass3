@@ -10,16 +10,21 @@ public class Main extends JFrame implements Runnable {
     private class Canvas extends JPanel implements KeyListener {
 
         private Stage stage;
+        private Instant lastUpdate;
 
         public Canvas() {
             setPreferredSize(new Dimension(1280, 720));
 
             stage = new Stage();
+            lastUpdate = Instant.now();
         }
 
         @Override
         public void paint(Graphics g) {
-            stage.update();
+            if(Duration.between(lastUpdate, Instant.now()).compareTo(Duration.ofSeconds(1)) > 0) {
+                stage.update();
+                lastUpdate = Instant.now();
+            }
             stage.paint(g, getMousePosition());
         }
 

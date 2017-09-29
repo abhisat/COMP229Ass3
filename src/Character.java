@@ -12,11 +12,15 @@ public abstract class Character implements GamePiece<Cell> {
     Optional<Image> display;
     Cell location;
     Behaviour behaviour;
+    protected int movement;
+    protected int movesLeft;
 
     public Character(Cell location, Behaviour behaviour){
         this.location = location;
         this.display = Optional.empty();
         this.behaviour = behaviour;
+        this.movement = 1;
+        this.movesLeft = 1;
     }
 
     public  void paint(Graphics g){

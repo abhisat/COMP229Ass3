@@ -16,6 +16,8 @@ public class Sheep extends Character {
         } catch (Exception e){
             display = Optional.empty();
         }
+        movement = 3;
+        movesLeft = 3;
     }
 
 }

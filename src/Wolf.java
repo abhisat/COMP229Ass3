@@ -15,6 +15,8 @@ public class Wolf extends Character {
         } catch (Exception e){
             display = Optional.empty();
         }
+        movement = 4;
+        movesLeft = 4;
     }
 
 }

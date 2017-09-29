@@ -18,27 +18,18 @@ public class Grid implements GameBoard<Cell> {
         this.x = x;
         this.y = y;
 
-        int currentTerrain = new java.util.Random().nextInt(4);
         for(int i = 0; i < 20; i++) {
             for(int j = 0; j < 20; j++) {
-                // a 1 in 8 chance we will switch to a new type of terrain
-                if (new java.util.Random().nextInt(8) < 1){
-                    currentTerrain = new java.util.Random().nextInt(4);
-                }
-
-                switch (currentTerrain) {
-                    case 0:
-                        cells[i][j] = new Dirt(x + j * 35, y + i * 35);
-                        break;
-                    case 1:
-                        cells[i][j] = new Grass(x + j * 35, y + i * 35);
-                        break;
-                    case 2:
-                        cells[i][j] = new Trees(x + j * 35, y + i * 35);
-                        break;
-                    case 3:
-                        cells[i][j] = new Rocks(x + j * 35, y + i * 35);
-                        break;
+                if(i < 7 && j < 7){
+                    cells[i][j] = new Rocks(x + j *35, y + i * 35);
+                } else if(i > 14 && j < 7){
+                    cells[i][j] = new Trees(x + j *35, y + i * 35);
+                } else if(j > 16){
+                    cells[i][j] = new Dirt(x + j *35, y + i * 35);
+                } else if(i > 14 && j > 10){
+                    cells[i][j] = new Trees(x + j *35, y + i * 35);
+                } else {
+                    cells[i][j] = new Grass(x + j *35, y + i * 35);
                 }
             }
         }
@@ -51,6 +42,10 @@ public class Grid implements GameBoard<Cell> {
     public Cell getRandomCell() {
         java.util.Random rand = new java.util.Random();
         return cells[rand.nextInt(20)][rand.nextInt(20)];
+    }
+
+    public Cell cellAt(int a, int b){
+        return cells[a][b];
     }
 
     private bos.Pair<Integer, Integer> indexOfCell(Cell c) {

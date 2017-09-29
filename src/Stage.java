@@ -20,19 +20,16 @@ public class Stage {
 
     public Stage() {
         grid = new Grid(10, 10);
-        shepherd = new Shepherd(grid.getRandomCell(), new StandStill());
-        sheep = new Sheep(grid.getRandomCell(), new MoveTowards(shepherd));
-        wolf = new Wolf(grid.getRandomCell(), new MoveTowards(sheep));
+        shepherd = new Shepherd(grid.cellAt(0,0), new StandStill());
+        sheep = new Sheep(grid.cellAt(19,0), new MoveTowards(shepherd));
+        wolf = new Wolf(grid.cellAt(19,19), new MoveTowards(sheep));
 
         observers = new ArrayList();
 
         player = new Player(grid.getRandomCell());
         observers.add(player::notify);
 
-        allCharacters = new ArrayList<Character>();
-        allCharacters.add(sheep);
-        allCharacters.add(shepherd);
-        allCharacters.add(wolf);
+
 
     }
 
@@ -49,9 +46,19 @@ public class Stage {
                     sheep.setBehaviour(new StandStill());
                     shepherd.setBehaviour(new MoveTowards(sheep));
                 }
-                allCharacters.forEach((c) -> c.aiMove(this).perform());
-                player.startMove();
-                timeOfLastMove = Instant.now();
+                Arrays.asList(sheep, shepherd, wolf).forEach(c -> {
+                    if (c.movesLeft > 0) {
+                        c.aiMove(this).perform();
+                        c.movesLeft--;
+                    }
+                });
+                if (sheep.movesLeft == 0 && wolf.movesLeft == 0 && shepherd.movesLeft ==0) {
+                    player.startMove();
+                    timeOfLastMove = Instant.now();
+                    sheep.movesLeft = sheep.movement;
+                    wolf.movesLeft = wolf.movement;
+                    shepherd.movesLeft = shepherd.movement;
+                }
             }
         }
     }
