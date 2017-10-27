@@ -5,6 +5,11 @@ import java.awt.*;
 import java.io.File;
 import java.util.Optional;
 import java.util.List;
+import bos.Pair;
+
+import javax.imageio.ImageIO;
+import java.io.File;
+import java.util.Optional;
 
 public class Wolf extends Character {
 
@@ -13,7 +18,7 @@ public class Wolf extends Character {
         try{
             display = Optional.of(ImageIO.read(new File("wolf.png")));
         } catch (Exception e){
-            display = Optional.empty();
+            this.display = Optional.empty();
         }
         movement = 4;
         movesLeft = 4;

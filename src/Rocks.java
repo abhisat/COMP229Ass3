@@ -4,6 +4,7 @@ public class Rocks extends Cell {
 
     public Rocks(int x, int y) {
         super(x, y);
+        cleaner = true;
     }
 
     @Override

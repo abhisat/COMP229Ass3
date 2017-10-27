@@ -4,6 +4,7 @@ public class Dirt extends Cell {
 
     public Dirt(int x, int y) {
         super(x, y);
+        muddy = true;
     }
 
     @Override

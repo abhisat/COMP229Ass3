@@ -12,7 +12,7 @@ public class MoveTowards implements Behaviour {
 
     @Override
     public RelativeMove chooseMove(Stage stage, Character mover) {
-        List<RelativeMove> movesToTarget = stage.grid.movesBetween(mover.location,target.location, mover);
+        List<RelativeMove> movesToTarget = stage.grid.movesBetween(mover.getLocation(), target.getLocation(), mover);
         if (movesToTarget.size() == 0)
             return new NoMove(stage.grid, mover);
         else

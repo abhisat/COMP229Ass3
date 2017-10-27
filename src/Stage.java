@@ -13,53 +13,64 @@ public class Stage {
     protected Character shepherd;
     protected Character wolf;
     protected Player player;
-    private List<Character> allCharacters;
     private ArrayList<BiConsumer<java.lang.Character, GameBoard<Cell>>> observers;
-
-    private Instant timeOfLastMove = Instant.now();
 
     public Stage() {
         grid = new Grid(10, 10);
         shepherd = new Shepherd(grid.cellAt(0,0), new StandStill());
-        sheep = new Sheep(grid.cellAt(19,0), new MoveTowards(shepherd));
-        wolf = new Wolf(grid.cellAt(19,19), new MoveTowards(sheep));
+        sheep = new Sheep(grid.cellAt(19, 0), new MoveTowards(shepherd));
+        wolf = new Wolf(grid.cellAt(19, 19), new MoveTowards(sheep));
 
         observers = new ArrayList();
 
         player = new Player(grid.getRandomCell());
         observers.add(player::notify);
-
-
-
     }
 
     public void update() {
+        checkForGameOver();
+        // pick up any environmental effects
         if (!player.inMove()) {
-            if (sheep.location == shepherd.location) {
-                System.out.println("The sheep is safe :)");
-                System.exit(0);
-            } else if (sheep.location == wolf.location) {
-                System.out.println("The sheep is dead :(");
-                System.exit(1);
-            } else {
-                if (sheep.location.x == sheep.location.y) {
-                    sheep.setBehaviour(new StandStill());
-                    shepherd.setBehaviour(new MoveTowards(sheep));
-                }
-                Arrays.asList(sheep, shepherd, wolf).forEach(c -> {
-                    if (c.movesLeft > 0) {
-                        c.aiMove(this).perform();
-                        c.movesLeft--;
-                    }
-                });
-                if (sheep.movesLeft == 0 && wolf.movesLeft == 0 && shepherd.movesLeft ==0) {
-                    player.startMove();
-                    timeOfLastMove = Instant.now();
-                    sheep.movesLeft = sheep.movement;
-                    wolf.movesLeft = wolf.movement;
-                    shepherd.movesLeft = shepherd.movement;
+            for (Character c: Arrays.asList(sheep, shepherd, wolf)){
+                if (c.getLocation().grassy){
+                    c.addGunk(new GrassyDecorator());
+                } else if (c.getLocation().muddy){
+                    c.addGunk(new MuddyDecorator());
+                } else if (c.getLocation().cleaner){
+                    c.removeGunk();
                 }
             }
+
+            if (sheep.getLocation().x == sheep.getLocation().y) {
+                sheep.setBehaviour(new StandStill());
+                shepherd.setBehaviour(new MoveTowards(sheep));
+            }
+            Arrays.asList(sheep, shepherd, wolf).forEach(c -> {
+                if (c.getMovesLeft() > 0) {
+                    c.aiMove(this).perform();
+                    c.setMovesLeft(c.getMovesLeft() - 1);
+                }
+            });
+            boolean stillWaiting = false;
+            for (Character c : Arrays.asList(sheep, shepherd, wolf)) {
+                if (c.getMovesLeft() > 0) {
+                    stillWaiting = true;
+                }
+            }
+            if (!stillWaiting) {
+                player.startMove();
+                Arrays.asList(sheep, shepherd, wolf).forEach(c -> c.setMovesLeft(c.getMovement()));
+            }
+        }
+    }
+
+    public void checkForGameOver() {
+        if (sheep.getLocation() == shepherd.getLocation()) {
+            System.out.println("The sheep is safe :)");
+            System.exit(0);
+        } else if (sheep.getLocation() == wolf.getLocation()) {
+            System.out.println("The sheep is dead :(");
+            System.exit(1);
         }
     }
 
@@ -71,8 +82,8 @@ public class Stage {
         player.paint(g);
     }
 
-    public void notifyAll(char c){
-        for(BiConsumer bc : observers) {
+    public void notifyAll(char c) {
+        for (BiConsumer bc : observers) {
             bc.accept(new java.lang.Character(c), grid);
         }
     }

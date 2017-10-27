@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.List;
 import java.util.Optional;
 import bos.*;
-
 import javax.imageio.ImageIO;
 
 public class Sheep extends Character {

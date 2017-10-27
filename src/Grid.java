@@ -21,22 +21,22 @@ public class Grid implements GameBoard<Cell> {
         for(int i = 0; i < 20; i++) {
             for(int j = 0; j < 20; j++) {
                 if(i < 7 && j < 7){
-                    cells[i][j] = new Rocks(x + j *35, y + i * 35);
-                } else if(i > 14 && j < 7){
-                    cells[i][j] = new Trees(x + j *35, y + i * 35);
-                } else if(j > 16){
-                    cells[i][j] = new Dirt(x + j *35, y + i * 35);
-                } else if(i > 14 && j > 10){
-                    cells[i][j] = new Trees(x + j *35, y + i * 35);
+                    cells[i][j] = new Rocks(x + j * 35, y + i * 35);
+                } else if (i > 14 && j < 7) {
+                    cells[i][j] = new Trees(x + j * 35, y + i * 35);
+                } else if (j > 16) {
+                    cells[i][j] = new Dirt(x + j * 35, y + i * 35);
+                } else if (i > 14 && j > 10){
+                    cells[i][j] = new Trees(x + j * 35, y + i *35);
                 } else {
-                    cells[i][j] = new Grass(x + j *35, y + i * 35);
+                    cells[i][j] = new Grass(x + j * 35, y + i * 35);
                 }
             }
         }
     }
 
     public void paint(Graphics g, Point mousePosition) {
-        doToEachCell((c) -> c.paint(g, c.contains(mousePosition)));
+        doToEachCell(c -> c.paint(g, c.contains(mousePosition)));
     }
 
     public Cell getRandomCell() {

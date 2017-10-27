@@ -14,6 +14,7 @@ public class Shepherd extends Character {
         } catch (Exception e){
             display = Optional.empty();
         }
+        this.movement = 1;
     }
 
 }

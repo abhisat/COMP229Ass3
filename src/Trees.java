@@ -4,6 +4,7 @@ public class Trees extends Cell {
 
     public Trees(int x, int y) {
         super(x, y);
+        cleaner = true;
     }
 
     @Override

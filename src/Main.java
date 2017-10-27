@@ -14,6 +14,7 @@ public class Main extends JFrame implements Runnable {
 
         public Canvas() {
             setPreferredSize(new Dimension(1280, 720));
+            lastUpdate = Instant.now();
 
             stage = new Stage();
             lastUpdate = Instant.now();
@@ -26,6 +27,10 @@ public class Main extends JFrame implements Runnable {
                 lastUpdate = Instant.now();
             }
             stage.paint(g, getMousePosition());
+            if (Duration.between(lastUpdate, Instant.now()).compareTo(Duration.ofSeconds(2)) > 0) {
+                stage.update();
+                lastUpdate = Instant.now();
+            }
         }
 
         @Override public void keyTyped(KeyEvent e) {stage.notifyAll(e.getKeyChar());}
@@ -60,6 +65,8 @@ public class Main extends JFrame implements Runnable {
             } catch (InterruptedException e) {
                 System.out.println("thread was interrupted, but really, who cares?");
                 System.out.println(e.toString());
+            } catch (IllegalArgumentException e){
+                System.out.println("probably a player move");
             }
         }
     }
