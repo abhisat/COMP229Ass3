@@ -11,7 +11,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
-public abstract class Character implements GamePiece<Cell> {
+public abstract class Character implements GamePiece<Cell>, Runnable {
     Optional<Image> display;
     Cell location;
     Behaviour behaviour;
@@ -90,5 +90,8 @@ public abstract class Character implements GamePiece<Cell> {
             movementModifiers.remove(movementModifiers.size() - 1);
             paintModifiers.remove(paintModifiers.size() - 1);
         }
+    }
+    public void run(){
+
     }
 }

@@ -22,9 +22,10 @@ public class Stage {
         wolf = new Wolf(grid.cellAt(19, 19), new MoveTowards(sheep));
 
         observers = new ArrayList();
-
         player = new Player(grid.getRandomCell());
         observers.add(player::notify);
+
+
     }
 
     public void update() {
