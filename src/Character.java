@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.time.Duration;
 import java.time.Instant;
 import java.util.*;
 
@@ -8,6 +9,7 @@ import bos.RelativeMove;
 import java.awt.*;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -17,7 +19,7 @@ public abstract class Character implements GamePiece<Cell>, Runnable {
     Cell location;
     Behaviour behaviour;
     protected int movement;
-    protected int movesLeft;
+    protected volatile int movesLeft;
     protected Stage stage;
     protected Thread thread;
 
@@ -32,6 +34,7 @@ public abstract class Character implements GamePiece<Cell>, Runnable {
         this.movesLeft = 1;
         this.movementModifiers = new ArrayList();
         this.paintModifiers = new ArrayList();
+
     }
 
     public Character() {
@@ -100,17 +103,9 @@ public abstract class Character implements GamePiece<Cell>, Runnable {
     }
     public void makeMove(){
         getBehaviour().chooseMove(stage, this).perform();
-        if (movesLeft > 0){
-            try {
-                System.out.println(movesLeft);
-                thread.sleep((int) (2000/movesLeft));
-            }catch (InterruptedException e){
-
-            }
-        }
     }
     @Override
-    public void run(){
+    public void run() {
         makeMove();
     }
 }
