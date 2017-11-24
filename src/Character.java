@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.time.Instant;
 import java.util.*;
 
 import bos.GamePiece;
@@ -17,6 +18,8 @@ public abstract class Character implements GamePiece<Cell>, Runnable {
     Behaviour behaviour;
     protected int movement;
     protected int movesLeft;
+    protected Stage stage;
+    protected Thread thread;
 
     List<BiConsumer<Graphics, Character>> paintModifiers;
     List<Function<Integer, Integer>> movementModifiers;
@@ -53,8 +56,12 @@ public abstract class Character implements GamePiece<Cell>, Runnable {
     }
     public Behaviour getBehaviour(){return this.behaviour;}
 
-    public RelativeMove aiMove(Stage stage){
-        return getBehaviour().chooseMove(stage, this);
+    public void aiMove(Stage stage){
+        this.stage = stage;
+        if(this.thread == null || thread.getState() == Thread.State.TERMINATED){
+            thread = new Thread(this);
+            thread.start();
+        }
     }
 
     public int getMovementDistance(){
@@ -91,7 +98,19 @@ public abstract class Character implements GamePiece<Cell>, Runnable {
             paintModifiers.remove(paintModifiers.size() - 1);
         }
     }
-    public void run(){
+    public void makeMove(){
+        getBehaviour().chooseMove(stage, this).perform();
+        if (movesLeft > 0){
+            try {
+                System.out.println(movesLeft);
+                thread.sleep((int) (2000/movesLeft));
+            }catch (InterruptedException e){
 
+            }
+        }
+    }
+    @Override
+    public void run(){
+        makeMove();
     }
 }

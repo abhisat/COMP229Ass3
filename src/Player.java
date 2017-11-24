@@ -35,8 +35,11 @@ public class Player implements Runnable {
     public void notify(char c, GameBoard<Cell> gb) {
         this.c = c;
         this.gb = gb;
-        thread = new Thread(this);
-        thread.start();
+        if(thread == null || thread.getState() == Thread.State.TERMINATED){
+            thread = new Thread(this);
+            thread.start();
+        }
+
     }
 
     private void movePlayer(char c, GameBoard<Cell> gb) {
@@ -65,8 +68,7 @@ public class Player implements Runnable {
     }
 
     @Override
-    public void run() {
-        movePlayer(c, gb);
+    public void run() {movePlayer(c, gb);
     }
 
     void updatePaint(Color color) {

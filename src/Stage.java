@@ -3,6 +3,7 @@ import java.util.*;
 import java.time.*;
 import java.util.List;
 import java.util.function.BiConsumer;
+import java.util.concurrent.TimeUnit;
 
 import bos.GameBoard;
 import bos.RelativeMove;
@@ -48,9 +49,10 @@ public class Stage {
             }
             Arrays.asList(sheep, shepherd, wolf).forEach(c -> {
                 if (c.getMovesLeft() > 0) {
-                    c.aiMove(this).perform();
-                    c.setMovesLeft(c.getMovesLeft() - 1);
-                }
+                        c.aiMove(this);
+                        c.setMovesLeft(c.getMovesLeft() - 1);
+                    }
+
             });
             boolean stillWaiting = false;
             for (Character c : Arrays.asList(sheep, shepherd, wolf)) {

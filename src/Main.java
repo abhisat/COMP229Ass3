@@ -10,27 +10,17 @@ public class Main extends JFrame implements Runnable {
     private class Canvas extends JPanel implements KeyListener {
 
         private Stage stage;
-        private Instant lastUpdate;
 
         public Canvas() {
             setPreferredSize(new Dimension(1280, 720));
-            lastUpdate = Instant.now();
 
             stage = new Stage();
-            lastUpdate = Instant.now();
         }
 
         @Override
         public void paint(Graphics g) {
-            if(Duration.between(lastUpdate, Instant.now()).compareTo(Duration.ofSeconds(1)) > 0) {
-                stage.update();
-                lastUpdate = Instant.now();
-            }
+            stage.update();
             stage.paint(g, getMousePosition());
-            if (Duration.between(lastUpdate, Instant.now()).compareTo(Duration.ofSeconds(2)) > 0) {
-                stage.update();
-                lastUpdate = Instant.now();
-            }
         }
 
         @Override public void keyTyped(KeyEvent e) {stage.notifyAll(e.getKeyChar());}
